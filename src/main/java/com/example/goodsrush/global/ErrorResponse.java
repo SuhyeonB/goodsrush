@@ -1,4 +1,4 @@
 package com.example.goodsrush.global;
 
-public class ErrorResponse {
+public record ErrorResponse(String message) {
 }
