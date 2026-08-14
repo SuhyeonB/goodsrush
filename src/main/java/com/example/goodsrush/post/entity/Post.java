@@ -25,7 +25,7 @@ public class Post {
 
     private int likeCount;
 
-    //@Version
+    @Version
     private int version;
 
     @Column(updatable = false)
@@ -47,4 +47,8 @@ public class Post {
         likeCount++;
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
