@@ -48,4 +48,10 @@ public class Product {
         }
         this.stock -= quantity;
     }
+
+    public void update(String name, int stock, long price) {
+        this.name = name;
+        this.stock = stock;
+        this.price = price;
+    }
 }
