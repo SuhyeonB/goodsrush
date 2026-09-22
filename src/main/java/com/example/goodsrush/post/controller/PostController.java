@@ -30,7 +30,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<Page<PostResponse>> getAllPosts(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable
-            ) {
+    ) {
         return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
 

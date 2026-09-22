@@ -43,7 +43,7 @@ public class Post {
         this.content = content;
     }
 
-    public void increaseLikeCount() {
+    public void increaseLikeCount() {   // JPA dirty checking
         likeCount++;
     }
 
