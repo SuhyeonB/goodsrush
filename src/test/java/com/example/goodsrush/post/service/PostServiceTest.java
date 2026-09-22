@@ -3,15 +3,12 @@ package com.example.goodsrush.post.service;
 import com.example.goodsrush.post.entity.Post;
 import com.example.goodsrush.post.repository.PostRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PostServiceTest {
@@ -38,6 +35,7 @@ class PostServiceTest {
                     postService.likePost(post.getId());
                 } catch (Exception e) {
                     // Ignore exception and continue (expected in Before state)
+                    e.printStackTrace();
                 } finally {
                     latch.countDown();
                 }
