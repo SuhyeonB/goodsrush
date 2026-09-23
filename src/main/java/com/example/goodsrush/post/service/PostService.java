@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final PostLikeExecutor postLikeExecutor;
 
     @Transactional
     public PostResponse createPost(CreatePostRequest dto) {
@@ -63,7 +64,15 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    @Retryable(
+            retryFor = ObjectOptimisticLockingFailureException.class,
+            maxAttempts = 20,
+            backoff = @Backoff(delay = 10)
+    )
+    @Transactional
     public void likePost(Long id) {
-        postLikeExecutor.likeOnce(id);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found: " + id));
+        post.increaseLikeCount();
     }
 }
